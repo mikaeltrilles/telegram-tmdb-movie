@@ -28,6 +28,8 @@ genre_mapping = {
     53: '🚓 #Thriller',
     37: '🌵 #Western',
     10764: '🎱 #Reality',
+    10765: '🚀 #Science-Fiction_&_Fantastique',
+    10759: '👊🏻 #Action_&_Adventure',
 }
 
 # Correspondance entre les noms de pays et les emojis
@@ -79,6 +81,8 @@ country_mapping = {
     'Czech Republic': '🇨🇿 #Tchéquie',
     'Turkey': '🇹🇷 #Turquie',
     'Ukraine': '🇺🇦 #Ukraine',
+    'Estonia': '🇪🇪 #Estonie',
+
 }
 
 
@@ -151,8 +155,7 @@ def generate_html(movie_details, cast_details):
         runtime_formatted = minutes_to_hours(movie_details['runtime'])
 
         # Extraire tous les noms des membres de l'équipe de réalisation ayant le job "Director"
-        directors = [member['name']
-                     for member in cast_details['crew'] if member['job'] == 'Director']
+        directors = [member['name'] for member in cast_details['crew'] if member['job'] == 'Director']
 
         # Si des réalisateurs sont disponibles, les utiliser, sinon "NC"
         director_html = ', '.join(directors) if directors else 'nc'
@@ -316,7 +319,7 @@ if cast_details is not None:
     html_content += f"\n\n---\n\n{markdown_content}"
 
     # Enregistre la fiche HTML dans un fichier
-    html_file_path = f"{args.movie_id}.html"
+    html_file_path = f"tmkprojectlist/movies/{args.movie_id}.html"
     with open(html_file_path, "w", encoding="utf-8") as html_file:
         html_file.write(html_content)
 
@@ -326,10 +329,7 @@ if cast_details is not None:
         subprocess.run(
             ["code", "--file-uri", f"file://{os.path.abspath(html_file_path)}"])
 
-    # Vérifie si le fichier HTML existe
-    # if os.path.exists(html_file_path):
-        # Ouvre le fichier HTML dans Atom avec la prévisualisation
-        # subprocess.run(["atom", f"{os.path.abspath(html_file_path)}"])
+
     else:
         print(f"Le fichier HTML {html_file_path} n'existe pas.")
 else:
